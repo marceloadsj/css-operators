@@ -102,3 +102,38 @@ module.exports = {
   },
 };
 ```
+
+---
+
+## API
+
+| Operator | Behavior                       | Description                                                       | JS Equivalent |
+| -------- | ------------------------------ | ----------------------------------------------------------------- | ------------- |
+| =        | Equality                       | Compare the stringfied version of two values                      | ==            |
+| !=       | Inequality                     | Compare the difference of two values, transforming bools and nums | !==           |
+| >        | Greater than operator          | Compare the difference of two numeric values                      | >             |
+| <        | Less than operator             | Compare the difference of two numeric values                      | <             |
+| >=       | Greater than or equal operator | Compare the difference of two numeric values                      | >=            |
+| <=       | Less than or equal operator    | Compare the difference of two numeric values                      | <=            |
+
+`import getClassName from "css-operators"`
+
+```javascript
+// cssKey as string - the base class of your .module.css file. The same file can have multiple of these.
+// cssModule as object - the import of the .module.css file. It will be parsed on webpack to a better format.
+// props as object - the props object to compare with the operators.
+
+// className as string - returns the parsed class name;
+
+const className = getClassName(cssKey, cssModule, props);
+```
+
+`import useCssProps from "css-operators/react"`
+
+```javascript
+// arguments as the same of getClassName function
+
+// cssProps as object - returns a shallow copied object with the className added and the used props deleted
+
+const cssProps = useCssProps(cssKey, cssModule, props);
+```
