@@ -144,7 +144,7 @@ const cssProps = useCssProps(cssKey, cssModule, props);
 
 You can mix some approaches to create a good way to organize your styles.
 
-**Tailwind**
+**Tailwind CSS**
 
 ```css
 /* Button.module.css */
