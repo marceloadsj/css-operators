@@ -1,11 +1,17 @@
 const { cssOperatorsKey } = require("./config");
 
 module.exports = function getClassName(cssKey, cssModule, props, options) {
-  if (!cssModule || !cssModule[cssOperatorsKey]) return "";
+  if (!cssModule) return "";
 
   let className = cssModule[cssKey] || "";
 
-  if (!cssModule[cssOperatorsKey][cssKey] || !props) return className;
+  if (
+    !cssModule[cssOperatorsKey] ||
+    !cssModule[cssOperatorsKey][cssKey] ||
+    !props
+  ) {
+    return className;
+  }
 
   cssModule[cssOperatorsKey][cssKey].forEach(({ propName, operators }) => {
     const propValue = props[propName];
