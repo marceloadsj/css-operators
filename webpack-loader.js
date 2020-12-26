@@ -15,17 +15,16 @@ module.exports = function webpackLoader(source) {
       try {
         // transform and parse it
         const cssModule = JSON.parse(match);
-        const parsedCssModule = parseCssModule(cssModule);
+        const [parsedCssModule, operatorClassNames] = parseCssModule(cssModule);
 
         // filter the right props for the final object
-        const cssModuleKeys = Object.keys(parsedCssModule);
+        if (Object.keys(parsedCssModule).length) {
+          const parsedMatch = {
+            ...cssModule,
+            [cssOperatorsKey]: parsedCssModule,
+          };
 
-        if (cssModuleKeys.length) {
-          const parsedMatch = { [cssOperatorsKey]: parsedCssModule };
-
-          cssModuleKeys.forEach((key) => {
-            parsedMatch[key] = cssModule[key];
-          });
+          operatorClassNames.forEach((key) => delete parsedMatch[key]);
 
           return JSON5.stringify(parsedMatch, null, 2);
         }
@@ -51,10 +50,15 @@ function parseCssModule(cssModule) {
   // parse the css module object to create a better shape
   const props = {};
 
+  // get the operator classes to remove from original object
+  const operatorClassNames = [];
+
   Object.entries(cssModule).forEach(([cssModuleKey, scopedClass]) => {
     const [cssKey, propKey] = cssModuleKey.split("|");
 
     if (!propKey) return;
+
+    operatorClassNames.push(propKey);
 
     // get the three pieces of the operator
     const [propName, operator = "=", propValue = "true"] = propKey.split(
@@ -111,5 +115,5 @@ function parseCssModule(cssModule) {
     parsedCssModule[cssKey] = Object.values(currentProps);
   });
 
-  return parsedCssModule;
+  return [parsedCssModule, operatorClassNames];
 }
