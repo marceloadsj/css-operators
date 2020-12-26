@@ -16,7 +16,12 @@ function parseRule(rule) {
 module.exports = function injectOnWebpack(config) {
   config.module.rules
     // filter the rules that parses .module.css files
-    .filter((rule) => "test.module.css".match(rule.test))
+    .filter(
+      (rule) =>
+        String(rule.test).includes("module") &&
+        String(rule.test).includes("css") &&
+        "test.module.css".match(rule.test)
+    )
 
     .forEach((rule) => {
       // for each rule, parse it injecting the right config

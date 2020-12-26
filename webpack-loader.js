@@ -30,7 +30,7 @@ module.exports = function webpackLoader(source) {
           return JSON5.stringify(parsedMatch, null, 2);
         }
       } catch (error) {
-        console.error("Error: ", error);
+        console.error("CSS Operators - Webpack Loader Error: ", error);
       }
 
       return match;
