@@ -29,13 +29,29 @@ A combination of a Postcss Plugin and Webpack Loader on top of CSS Modules to ad
 ```
 
 ```javascript
-// index.js
+// Vanilla
+
+import getClassName from "css-operators";
+import buttonClasses from "./Button.module.css";
+
+const className = getClassName("Button", buttonClasses, {
+  variant: "primary",
+  size: 100,
+});
+
+const button = document.createElement("button");
+
+button.className = className;
+```
+
+```javascript
+// React
 
 import useCssProps from "css-operators/react";
-
 import buttonClasses from "./Button.module.css";
 
 function Button(props) {
+  // The extra props will be deleted from the result object
   const cssProps = useCssProps("Button", buttonClasses, props);
 
   return <button {...cssProps} />;
