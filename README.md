@@ -1,6 +1,12 @@
 # CSS Operators
 
+`Work in Progress`
+
 A combination of a Postcss Plugin and Webpack Loader on top of CSS Modules to add operators to CSS.
+
+---
+
+**CSS Module**
 
 ```css
 /* Button.module.css */
@@ -28,21 +34,7 @@ A combination of a Postcss Plugin and Webpack Loader on top of CSS Modules to ad
 }
 ```
 
-```javascript
-// Vanilla
-
-import getClassName from "css-operators";
-import buttonClasses from "./Button.module.css";
-
-const className = getClassName("Button", buttonClasses, {
-  variant: "primary",
-  size: 100,
-});
-
-const button = document.createElement("button");
-
-button.className = className;
-```
+**Javascript**
 
 ```javascript
 // React
@@ -64,4 +56,49 @@ function App() {
     </Button>
   );
 }
+```
+
+OR
+
+```javascript
+// Vanilla
+
+import getClassName from "css-operators";
+import buttonClasses from "./Button.module.css";
+
+const className = getClassName("Button", buttonClasses, {
+  variant: "primary",
+  size: 100,
+});
+
+const button = document.createElement("button");
+
+button.className = className;
+```
+
+---
+
+## Setup
+
+```javascript
+// postcss.config.js
+
+// postcss-nested is a required plugin and it needs to be added after the css-operators
+module.exports = {
+  plugins: ["css-operators/postcss", "postcss-nested"],
+};
+```
+
+```javascript
+// Next.js
+
+const injectCssOperators = require("css-operators/next");
+
+module.exports = {
+  webpack(config) {
+    injectCssOperators(config);
+
+    return config;
+  },
+};
 ```
