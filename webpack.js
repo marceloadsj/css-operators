@@ -91,16 +91,17 @@ function parseCssModule(cssModule) {
     } else {
       let parsedValue = propValue;
 
-      // the diff comparison parses bool
-      if (operator === "!=") {
-        if (propValue === "true") {
-          parsedValue = true;
-        } else if (propValue === "false") {
-          parsedValue = false;
-        }
+      // parsing bools and nums
+      if (propValue === "true") {
+        parsedValue = true;
+      } else if (propValue === "false") {
+        parsedValue = false;
       } else {
-        // the number comparison parses nums
         parsedValue = Number(propValue);
+
+        if (isNaN(parsedValue)) {
+          parsedValue = propValue;
+        }
       }
 
       currentOperator = currentOperator || { propValues: [], classNames: [] };
