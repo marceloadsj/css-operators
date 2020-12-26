@@ -2,7 +2,7 @@ const JSON5 = require("json5");
 
 const { cssOperatorsKey } = require("./config");
 
-const cssLoaderRegExp = new RegExp("{(.|\n|\t)[^}][^;]*}", "gm");
+const cssLoaderRegExp = new RegExp("{\n(.|\n|\t)[^}][^;]*\n}", "gm");
 
 module.exports = function webpackLoader(source) {
   if (typeof source !== "string") return source;
@@ -30,7 +30,12 @@ module.exports = function webpackLoader(source) {
           return JSON5.stringify(parsedMatch, null, 2);
         }
       } catch (error) {
-        console.error("CSS Operators - Webpack Loader Error: ", error);
+        console.error(
+          "CSS Operators - Webpack Loader Error: ",
+          error,
+          source,
+          match
+        );
       }
 
       return match;
