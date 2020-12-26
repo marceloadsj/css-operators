@@ -137,3 +137,35 @@ const className = getClassName(cssKey, cssModule, props);
 
 const cssProps = useCssProps(cssKey, cssModule, props);
 ```
+
+---
+
+## Misc
+
+You can mix some approaches to create a good way to organize your styles.
+
+**Tailwind**
+
+```css
+/* Button.module.css */
+
+.Button {
+  @apply rounded;
+
+  (variant = primary) {
+    @apply bg-blue-500 text-white;
+  }
+
+  (variant = secondary) {
+    @apply bg-blue-100 text-blue-500;
+  }
+
+  (size = 100) {
+    @apply px-3 py-2;
+  }
+
+  (size = 200) {
+    @apply px-6 py-4;
+  }
+}
+```
