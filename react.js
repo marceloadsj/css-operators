@@ -3,15 +3,16 @@ const getClassName = require(".");
 module.exports = function useCssProps(
   cssKey,
   cssModule,
-  { ...props },
+  { className, ...props },
   options
 ) {
-  const className = `${props.className || ""} ${getClassName(
-    cssKey,
-    cssModule,
-    props,
-    { deleteProps: true, ...options }
-  )}`.trim();
+  const parsedClassName = getClassName(cssKey, cssModule, props, {
+    deleteProps: true,
+    ...options,
+  });
 
-  return { ...props, className };
+  return {
+    ...props,
+    className: `${className || ""} ${parsedClassName}`.trim() || undefined,
+  };
 };
