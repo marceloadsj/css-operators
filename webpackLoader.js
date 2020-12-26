@@ -2,52 +2,32 @@ const JSON5 = require("json5");
 
 const { cssOperatorsKey } = require("./config");
 
-// configuration variables
-const cssLoaderPrefix = {
-  client: "___CSS_LOADER_EXPORT___.locals",
-  server: "module.exports",
-};
-
-const cssLoaderSuffix = " ?= ?{(.|\n|\t)[^}][^;]*};";
-
-const cssLoaderRegExp = {
-  client: new RegExp(`${cssLoaderPrefix.client}${cssLoaderSuffix}`, "gm"),
-  server: new RegExp(`${cssLoaderPrefix.server}${cssLoaderSuffix}`, "gm"),
-};
+const cssLoaderRegExp = new RegExp("{(.|\n|\t)[^}][^;]*}", "gm");
 
 module.exports = function webpackLoader(source) {
   if (typeof source !== "string") return source;
 
-  // dev and prod builds creates different outputs
-  const environment = source.startsWith("// Exports") ? "server" : "client";
-
+  // extract the right css module string
   const parsedSource = source.replace(
-    cssLoaderRegExp[environment],
+    cssLoaderRegExp,
 
     (match) => {
-      // parse css module output to right format
-      const parsedMatch = match
-        .replace(`${cssLoaderPrefix[environment]} = `, "")
-        .replace(";", "");
-
       try {
-        const cssModule = JSON.parse(parsedMatch);
-
+        // transform and parse it
+        const cssModule = JSON.parse(match);
         const parsedCssModule = parseCssModule(cssModule);
 
         // filter the right props for the final object
         const cssModuleKeys = Object.keys(parsedCssModule);
 
         if (cssModuleKeys.length) {
-          const value = { [cssOperatorsKey]: parsedCssModule };
+          const parsedMatch = { [cssOperatorsKey]: parsedCssModule };
 
           cssModuleKeys.forEach((key) => {
-            value[key] = cssModule[key];
+            parsedMatch[key] = cssModule[key];
           });
 
-          const parsedValue = JSON5.stringify(value, null, 2);
-
-          return `${cssLoaderPrefix[environment]} = ${parsedValue};`;
+          return JSON5.stringify(parsedMatch, null, 2);
         }
       } catch (error) {
         console.error("Error: ", error);
@@ -120,7 +100,7 @@ function parseCssModule(cssModule) {
   });
 
   // retrieve only the parsed results inside the keys
-  let parsedCssModule = {};
+  const parsedCssModule = {};
 
   Object.entries(props).forEach(([cssKey, currentProps]) => {
     parsedCssModule[cssKey] = Object.values(currentProps);

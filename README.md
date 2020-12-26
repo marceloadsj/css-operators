@@ -90,9 +90,9 @@ module.exports = {
 ```
 
 ```javascript
-// Next.js
+// Webpack (Next.js, Storybook, ...)
 
-const injectCssOperators = require("css-operators/next");
+const injectCssOperators = require("css-operators/injectOnWebpack");
 
 module.exports = {
   webpack(config) {
