@@ -8,7 +8,7 @@ function parseRule(rule) {
     );
 
     if (index > -1) {
-      rule.use.splice(index, 0, path.resolve(__dirname, "./webpackLoader.js"));
+      rule.use.splice(index, 0, path.resolve(__dirname, "./webpack-loader.js"));
     }
   }
 }

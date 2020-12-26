@@ -85,7 +85,7 @@ button.className = className;
 
 // postcss-nested is a required plugin and it needs to be added after the css-operators
 module.exports = {
-  plugins: ["css-operators/postcss", "postcss-nested"],
+  plugins: ["css-operators/postcss-plugin", "postcss-nested"],
 };
 ```
 

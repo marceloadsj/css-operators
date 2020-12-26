@@ -13,7 +13,7 @@ module.exports = {
         test: /\.module.css$/i,
         use: [
           "style-loader",
-          path.resolve("./webpackLoader.js"),
+          path.resolve("./webpack-loader.js"),
           {
             loader: "css-loader",
             options: {
@@ -27,7 +27,7 @@ module.exports = {
             options: {
               postcssOptions: {
                 plugins: [
-                  require("./postcssPlugin.js"),
+                  require("./postcss-plugin.js"),
                   require("postcss-nested"),
                 ],
               },
